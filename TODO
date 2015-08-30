@@ -1,9 +1,4 @@
-* --- Really need to fix TelnetReporter!!! Because it is short-circuiting the
-logic process!!!!
-* DONE - Do I need a Config class? Perhaps a Singleton? Store module name, module dir, 
-    future options...
-* DONE - App format: chuchomud.rb -m YOUR_GAME
-* DONE - I'd like to change _de_attrs to "attributes" or "traits" or something 
+* --- Really need to fix TelnetReporter!!! Because it is short-circuiting the logic process!!!!
 * YAML Data to be fixed: commands (DONE), logic
 * Really need to find a better way to handle "cross-cutting concerns", e.g. the
     databases and logging. In other words, no more globals!
@@ -22,15 +17,12 @@ logic process!!!!
         *** TO_HIT = ACCURACY + (inject of all ACCURACY_DELTA)
         *** TO_HIT = query all entities for ACCURACY
         *** aren't those the same? 
-* DONE - Make different "configurations" or "games" inside the data dir -- and pass it
-    as an arg to chucho_mud. Have a "base", then "example".
 * I may've accidentally created a Message Queue! By adding the "responds_to"
     meta to the logic classes, I've created the queues (or subjects) to which
     the logic modules should subscribe!!
 * Need to verify that things like sight/sound are going through the game engine.
     otherwise logic won't affect it (i.e. being deaf/blind) 
     ** does the game handle this? or does the interface? GAME
-* DONE - (see above) Implement "sound" (complement to "vision")
 * Add /follow command/logic -- beginning of a pet?
 * Change DarkRoom/LightSource: dark room overridden by darkvision AND
     provideslight -- darkvision is local(like goggles) and provides... is
@@ -67,21 +59,6 @@ logic process!!!!
     Maybe add a meta "data" that, if present, gets saved. Otherwise, it's just
     the class name.
 
-* ~DONE - What about add_logic vs. add_existing_logic? What exactly is the difference?
-At a conceptual level: you really have stackable and non-stackable (also you
-might have replaceable and nonreplaceable). These should probably be metas.
-    if logic DOES NOT exist
-        add
-    if logic DOES exist
-        1. don't add - EXCLUSIVE_LOGIC (default?)
-        2. delete existing, add new - REPLACEABLE_LOGIC
-        3. add new, in addition to old - STACKABLE_LOGIC
-
-    Need to add meta:
-        stackable :exclusive
-        stackable :replaceable
-        stackable :stackable
-                
 --------------------------------------------------------------------------------
     
 * something about spawnitem is hosing up saving player to file...
@@ -175,33 +152,21 @@ action that the game cannot?
 --------------------------------------------------------------------------------
 IDEA
     * Probably need a set of "init" scripts
-    * DONE - duh, Region Logic - how to implement game-wide 'events' like day/night, weather
     * Maybe have an inaccessible region with a "god-like" character in it
 --------------------------------------------------------------------------------
-* DONE - where? - Add help function(s) (and commands) for updating Char/Item from template
-* DONE - (not necessary) - Can spawnitem use Game#give_item
-* DONE - Could I change Connection::send_string to msg or something shorter?
-    * Remove EOL from send_string; could use 'prompt' if you don't need an EOL
 * What should happen when a logic mod. throws an exception?
 * Meta-Programming Ideas:
     Commands: usage
         could data be a hash? could commands be DataEntities?
     DONE - Logic: supported_types (in ctor), reacts_to (action.type), requires
     (action.data)
-* DONE - Added portals in look search
-* DONE - Implement autolook, show room desc.
 * Two additional types of actions: are they necessary or can you just ask the
     object directly?
     ** query
     ** do 
 * Implement command ALIASES
 --------------------------------------------------------------------------------
-ORGANIZATIONAL
-    * DONE - updated net.rb (valid at vers. 2.4.0)
-    * DONE - include "license" in source 
---------------------------------------------------------------------------------
 * Handle "already logged in"... kinda
-* DONE - Move spawn* logic to Game -- easy
 * DONE - Could logics' ctor throw an exception if it is applied to the wrong type?
     i.e. logic meant for a room could throw an exception if you tried to init with
     a non-room object: e.g.
@@ -209,32 +174,19 @@ ORGANIZATIONAL
         def initialize(entity)
             raise InvalidEntityException unless entity.kind_of?(Room)
             ...
-* DONE - Ooooh. Look at implementing 'admincommands.py'
-    ** DONE - Implement 'reload' command
-    ** DONE - Implement add/del logic
-* DONE - used 'player.items.yaml' - In which DB do items ON CHARACTERS get
-    stored? Idea: have Players act like regions and have their own dir +
-    items.yaml... could be helpful down the road
 * Can I move the game "logic" (e.g. move, say, get, etc.) into a separate
     (testable) module?
-* DONE - Fix commands: both NOT requiring / and fix last_command; add '
 * Next Steps:
     ** Commands:
-        *** DONE - give
-        *** DONE - receive
         *** add/del command
         *** destroyentity
         *** add/del attribute
     ** hook/unhook -- observable?
-    ** DONE - Timed Actions
-    ** DONE - Thinking about how to make entities observable...
 * Need a set of util function to generate, create, add-to, etc. etc. ! Should be
     run from irb and setup the game completely. Can they check to make sure the
     db won't get overwritten by game? 
     ** create room 
     ** create portal
-    ** DONE - create item
-    ** DONE - add logic: entity.add_logic($logic_db.generate(:Logic,entity))
 * DONE - find_entity in entities.rb !!
     Need to add find_named which checks a group of entities... failing if more
     than one matches find; this is like BMud's Seek functions
@@ -242,7 +194,6 @@ ORGANIZATIONAL
     ** Implement matching elsewhere -- e.g. for exits
 * Should I reject nils in collections before saving? Hrm. Should probably fix so
     that I *don't have nils!*
-* DONE - Fix shutdown while many logged on
 * DONE - added 'Add' when loading an entity. I don't think I need 'Remove'
     because it gets called when you Load an entity... which I do differently.
     ** Verfiy add/remove are needed for chars, items, portals, etc. I think these DO
@@ -250,8 +201,6 @@ ORGANIZATIONAL
         created (e.g. you can't add portals manually and have them get hooked up)
     ** Note: I'm not sure if it should... but this won't delete things that get
         removed manually...
-* DONE - Save player on /quit
-* DONE - Implement Admin commands, commands with RANK
 --------------------------------------------------------------------------------
 * IMPORTANT -- can I put the command's logic IN the command, rather than
     puttint it in the freaking game? Also, really need to look at the game
@@ -284,7 +233,6 @@ ORGANIZATIONAL
         This might make sense if the same group could be used in the query
         portion... but how to respond back with pass/fail?
 --------------------------------------------------------------------------------
-* DONE - Implement HELP
 * DONE - update_from_template function (see above)
     * Similar to the next todo: need something like the template, to load-up the
     player whenever he/she logs in... that way, you can add a logic, or command
@@ -294,14 +242,7 @@ ORGANIZATIONAL
     database... just like with rooms, items, etc. Is it like a TemplateInstance
     database? the commands objects are the "templates"
     ** the char/item templates kind of do this... but what about 'data'?
-* DONE - Implement commands!
-* DONE - May need to have LogicEntity be a super-class
-* DONE - For Entities: can I assume that I always have the class, except when I'm
-    storing an entity "in" something else? (e.g. items in a player's inventory,
-    players in a room, etc.) In that case, transparently map a entity to/from
-    its oid. YES
 
-* DONE - use 'load' to dynamically load code
 * Are all "actions" actually Proc objects?? instead of do_action, use 'call'?
 * trying using 'proc' objects:
     cmd = proc {
@@ -310,33 +251,5 @@ ORGANIZATIONAL
     # ...
     cmd.call
 
-* DONE - NO - use DelegateClass(Enumerable) for database classes
-    then you can do: $character_db = Database.new(Array.new) # for vector-based
-    or $item_db = Database.new(Hash.new) # for map-based
-
-* DONE - weakref *is* in stdlib
-* DONE - set is a type too! in stdlib; add, add? 
-* DONE - may use Ternary Trie - wow! Abbrev::abbrev
-    commands = ['north','south','say']
-    command_lookup = Abbrev::abbrev(commands)
-
-    command_lookup['sa'] => "say"
-    command_lookup['so'] => "south"
-    command_lookup['s']  => nil
-    command_lookup['n']  => "north"
-
-* DONE - instead of passing var args for actions, use a hash! so, that way the value
-    and name are viewable... rather than the naming simply being an arbitrary
-    position. PLUS the receiver can examine the contents of the action message
-    just in case.
-
-* DONE - Actions are symbols
-
-* DONE - Logic and Command are both "script" "sub-classes": which, in our case makes
-    them just ruby scripts, "load"-ed from the filesystem (rather than a
-    database)
-
 * I wonder if all the add/remove functions that match HasRoom/Region/Character,
     etc. could be moved INTO the modules themselves...
-
-* DONE - is the class Logic even necssary?? NO
