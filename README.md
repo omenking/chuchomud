@@ -1,8 +1,7 @@
 Chucho MUD
 v.0.1.1
 
-INTRO
------
+## INTRO
 
 Chucho MUD is my foray into Game programmaing and Ruby. The basis for my MUD
 came from Ron Penton's "MUD Game Programming" book (ISBN 1592000908).
@@ -18,16 +17,16 @@ tasks as possible.
 All that being said, Chucho MUD is definitely a Work In Progress. See the TODO
 for more details.
 
-REQUIREMENTS
-------------
-Ruby 1.8.2
+## REQUIREMENTS
 
-FEATURES
---------
+Ruby 2.1.1
+
+## FEATURES
+
 Lots!
 
-USAGE
------
+## USAGE
+
 To start Chucho MUD:
 
     ruby chucho_mud.rb
@@ -49,8 +48,8 @@ can change you rank to 2 for more commands.
 
 Info gets written to STDOUT and the logs directory. 
 
-KNOWN ISSUES
-------------
+## KNOWN ISSUES
+
 * Passwords are not encrypted!
 * I'm sort of brute force loading stuff, so you'll see lots of warnings. Bear
     with me.
@@ -58,8 +57,8 @@ KNOWN ISSUES
 * chucho mud isn't really "configurable" yet -- it just runs on port 4000 --
     change chucho_mud.rb if you wish
 
-FAQ
----
+## FAQ
+
 Q. How you pronounce "Chucho MUD"?
 A. It's "chew-cho" and "mud" (mud is just dumb backwards).
  
@@ -76,8 +75,8 @@ stored in a YAML file under "data/players". Also, it's not quite OLC, but a cool
 trick is to load up 'irb'... Do $game = Game.new and you've basically got the
 whole MUD loaded in the Ruby interpreter!
 
-ACKNOWLDEGEMENTS
-----------------
+## ACKNOWLDEGEMENTS
+
 Around the time I started work on Chucho MUD, Teensy MUD (another Ruby MUD)
 appeared. It's a great MUD, full of great ideas. Seeing as Teensy MUD's creator
 is *much* more adept at writing networking code than me, I initially
@@ -86,8 +85,8 @@ the idea of using YAML to store game objects. Brilliant!
 
 Teensy MUD - http://sourcery.dyndns.org/teensymud/index.html
 
-CONTACT
--------
+## CONTACT
+
 http://www.mrchucho.net/index.php/projects/chuchomud
 
 - or -
