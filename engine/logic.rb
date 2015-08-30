@@ -27,12 +27,15 @@
 # for flavor, could have messages for added,deleted,"acted upon" (i.e. when
 # do_logic is called)!
 
-require 'entity_container'
-require 'util'
+require "#{$ROOT_PATH}/engine/entity_container"
+require "#{$ROOT_PATH}/engine/character"
+require "#{$ROOT_PATH}/engine/util"
 
 class Logic
     include Observable,HasEntity,
-            PlayerInteractionUtils,CharacterInteractionUtils,AreaInteractionUtils
+            PlayerInteractionUtils,
+            CharacterInteractionUtils,
+            AreaInteractionUtils
 
     def stacking_rule
         @stacking_rule||=:exclusive
@@ -271,7 +274,6 @@ protected
     end
 end
 
-require 'character'
 class ExampleLogic < Logic
     #applicable_to_entity
     applicable_to Character

@@ -9,8 +9,8 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'entities'
-require 'nameable'
+require "#{$ROOT_PATH}/engine/entities"
+require "#{$ROOT_PATH}/engine/nameable"
 
 class Portal < LogicEntity
     include DataEntity,HasRegion

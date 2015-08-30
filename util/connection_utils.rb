@@ -9,7 +9,7 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'network/telnet_commands'
+require "#{$ROOT_PATH}/network/telnet_commands"
 
 module ConnectionUtils
     def display(str)

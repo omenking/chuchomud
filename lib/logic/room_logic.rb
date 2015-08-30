@@ -9,8 +9,8 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'logic'
-require 'room'
+require "#{$ROOT_PATH}/engine/logic"
+require "#{$ROOT_PATH}/engine/room"
 
 class WindyRoom < Logic
     invoked_by :enterroom,:canleaveroom

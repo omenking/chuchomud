@@ -9,7 +9,7 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'entities'
+require "#{$ROOT_PATH}/engine/entities"
 
 class CharacterTemplate < Entity
     include DataEntity
@@ -20,7 +20,11 @@ class CharacterTemplate < Entity
 end
 
 class Character < LogicEntity
-    include DataEntity,HasRoom,HasRegion,HasTemplateID,HasItems
+    include DataEntity,
+            HasRoom,
+            HasRegion,
+            HasTemplateID,
+            HasItems
 
     attr_accessor :last_command,:quiet,:verbose,:account,:logged_in,
         :rank

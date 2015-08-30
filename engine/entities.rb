@@ -8,7 +8,7 @@
 #
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
-require 'nameable'
+require "#{$ROOT_PATH}/engine/nameable"
 # -----------------------------------------------------------------------
 # Base Class
 # -----------------------------------------------------------------------
@@ -28,22 +28,22 @@ end
 # Utility Functions
 # -----------------------------------------------------------------------
 def find_entity(on,where,klass,&compare)
-        search = case where
-        when /char/,/self/
-            [on.items]
-        when /room/
-            [on.room,on.room.characters,on.room.items,on.room.portals]
-        when /region/
-            [on.region.characters,on.region.items,on.region.rooms,on.region.portals]
-        when /world/
-            [on.region]
-        else
-            []
-        end
+  search = case where
+  when /char/,/self/
+    [on.items]
+  when /room/
+    [on.room,on.room.characters,on.room.items,on.room.portals]
+  when /region/
+    [on.region.characters,on.region.items,on.region.rooms,on.region.portals]
+  when /world/
+    [on.region]
+  else
+    []
+  end
 
-        search.flatten.find_all do |e|
-            e.kind_of?(klass) and (compare.call(e))
-        end
+  search.flatten.find_all do |e|
+      e.kind_of?(klass) and (compare.call(e))
+  end
 end
 # -----------------------------------------------------------------------
 # Basic Data Classes

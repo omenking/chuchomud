@@ -9,7 +9,7 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'entities'
+require "#{$ROOT_PATH}/engine/entities"
 
 class Region < LogicEntity
     include DataEntity,HasCharacters,HasItems,HasRooms,HasPortals

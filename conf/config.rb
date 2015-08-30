@@ -12,12 +12,14 @@
 require 'singleton'
 require 'pathname'
 
-class ChuchoMUDConfig
-  include Singleton
+module ChuchoMUD
+  class Config
+    include Singleton
 
-  attr_accessor :module_name
+    attr_accessor :module_name
 
-  def module_directory
-    @module_directory ||= Pathname.new(File.join('modules', self.module_name))
+    def module_directory
+      @module_directory ||= Pathname.new(File.join('modules', self.module_name))
+    end
   end
 end

@@ -10,7 +10,7 @@
 # See LICENSE file for additional information.
 
 require 'observer'
-require 'network/net_connection'
+require "#{$ROOT_PATH}/network/net_connection"
 
 # An incoming connection from a potential user/player
 class UserConnection < NetworkConnection

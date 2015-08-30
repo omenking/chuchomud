@@ -8,7 +8,7 @@
 #
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
-require 'network/listener'
+require "#{$ROOT_PATH}/network/listener"
 
 class MUDServer
     attr_accessor :connections

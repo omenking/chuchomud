@@ -12,8 +12,8 @@
 require 'observer'
 require 'socket'
 require 'fcntl'
-require 'network/net_connection'
-require 'network/user_connection'
+require "#{$ROOT_PATH}/network/net_connection"
+require "#{$ROOT_PATH}/network/user_connection"
 
 class SocketIO
     def initialize(socket,buffsize=8192)

@@ -11,12 +11,13 @@
 
 require 'yaml'
 
-require 'character'
-require 'item'
-require 'region'
-require 'room'
-require 'portal'
-require 'account'
+require "#{$ROOT_PATH}/engine/character"
+require "#{$ROOT_PATH}/engine/item"
+require "#{$ROOT_PATH}/engine/region"
+require "#{$ROOT_PATH}/engine/room"
+require "#{$ROOT_PATH}/engine/portal"
+require "#{$ROOT_PATH}/engine/account"
+require "#{$ROOT_PATH}/engine/command"
 
 class Database 
     include Enumerable
@@ -220,8 +221,8 @@ class TemplateInstanceDatabase
 end
 
 class CharacterDatabase < TemplateInstanceDatabase
-    CHAR_DIR = "#{ChuchoMUDConfig.instance.module_directory}/players".gsub!('/',File::SEPARATOR)
-    CHAR_TEMPLATE_DIR = "#{ChuchoMUDConfig.instance.module_directory}/templates/characters".gsub!('/',File::SEPARATOR)
+    CHAR_DIR = "#{ChuchoMUD::Config.instance.module_directory}/players".gsub!('/',File::SEPARATOR)
+    CHAR_TEMPLATE_DIR = "#{ChuchoMUD::Config.instance.module_directory}/templates/characters".gsub!('/',File::SEPARATOR)
 
     def has_name?
     end
@@ -273,7 +274,7 @@ class CharacterDatabase < TemplateInstanceDatabase
 end
 
 class ItemDatabase < TemplateInstanceDatabase
-    ITEM_TEMPLATE_DIR = "#{ChuchoMUDConfig.instance.module_directory}/templates/items".gsub!('/',File::SEPARATOR)
+    ITEM_TEMPLATE_DIR = "#{ChuchoMUD::Config.instance.module_directory}/templates/items".gsub!('/',File::SEPARATOR)
     def load_templates
         @templates.load_directory(ITEM_TEMPLATE_DIR)
     end
@@ -294,7 +295,7 @@ class PortalDatabase < VectorDatabase
 end
 
 class RegionDatabase < VectorDatabase
-    REGION_DIR = "#{ChuchoMUDConfig.instance.module_directory}/regions".gsub!('/',File::SEPARATOR)
+    REGION_DIR = "#{ChuchoMUD::Config.instance.module_directory}/regions".gsub!('/',File::SEPARATOR)
 
     def load_all
         # each region is its own subdir
@@ -335,7 +336,6 @@ class RegionDatabase < VectorDatabase
     end
 end
 
-require 'command'
 class CommandDatabase
     # need to make this an array !!!
     COMMANDS_DIR = "lib/commands/".gsub!('/',File::SEPARATOR)
@@ -387,10 +387,10 @@ end
 
 class AccountDatabase < VectorDatabase
     def load_all
-        load_file(ChuchoMUDConfig.instance.module_directory.join("accounts.yaml"))
+        load_file(ChuchoMUD::Config.instance.module_directory.join("accounts.yaml"))
     end
     def save_all
-        save_file(ChuchoMUDConfig.instance.module_directory.join('accounts.yaml'),@container)
+        save_file(ChuchoMUD::Config.instance.module_directory.join('accounts.yaml'),@container)
     end
     def create(name,pass)
         oid = find_open_id

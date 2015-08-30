@@ -9,11 +9,11 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'logic'
-require 'character'
-require 'item'
-require 'room'
-require 'dice'
+require "#{$ROOT_PATH}/engine/logic"
+require "#{$ROOT_PATH}/engine/character"
+require "#{$ROOT_PATH}/engine/item"
+require "#{$ROOT_PATH}/engine/room"
+require "#{$ROOT_PATH}/engine/dice"
 
 class Encumbrance < Logic
     invoked_by :cangetitem,:canreceiveitem,:getitem,:dropitem,:giveitem

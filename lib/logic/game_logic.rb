@@ -9,11 +9,10 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'character'
-require 'item'
-require 'room'
-
-require 'telnet_commands'
+require "#{$ROOT_PATH}/engine/character"
+require "#{$ROOT_PATH}/engine/item"
+require "#{$ROOT_PATH}/engine/room"
+require "#{$ROOT_PATH}/engine/telnet_commands"
 
 # -----------------------------------------------------------------------------
 # This file is for Game ENGINE logic, not "game-wide" logic.

@@ -9,9 +9,9 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'util/connection_utils'
-require 'action'
-require 'telnet_commands'
+require "#{$ROOT_PATH}/util/connection_utils"
+require "#{$ROOT_PATH}/engine/action"
+require "#{$ROOT_PATH}/engine/telnet_commands"
 
 class LogonHandler
     def initialize(connection)

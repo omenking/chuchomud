@@ -1,16 +1,16 @@
---- 
-- !ruby/object:Account 
+---
+- !ruby/object:Account
   allowed_accounts: 3
-  chars: 
+  chars:
   - 1
   logged_in: false
   login_time: 53000
   name: test
   oid: 0
   password: test
-- !ruby/object:Account 
+- !ruby/object:Account
   allowed_accounts: 3
-  chars: 
+  chars:
   - 2
   logged_in: false
   login_time: 176000

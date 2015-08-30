@@ -9,7 +9,7 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'entities'
+require "#{$ROOT_PATH}/engine/entities"
 
 # Every user has an Account which stores their password, rank, etc. An Account
 # can have one or more Character.

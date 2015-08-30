@@ -9,7 +9,7 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require 'util/simple_stack'
+require "#{$ROOT_PATH}/util/simple_stack"
 require 'observer'
 
 class PlayerConnection
