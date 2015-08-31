@@ -8,12 +8,6 @@
 #
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
-
-require "#{$ROOT_PATH}/engine/database"
-require "#{$ROOT_PATH}/engine/basic_timer"
-require "#{$ROOT_PATH}/engine/logic"
-require "#{$ROOT_PATH}/engine/game_functions"
-
 $: << "vendor"
 require 'pqueue'
 
@@ -22,45 +16,43 @@ class Game
   attr_accessor :running
 
   def initialize
-      @timer_registery = PQueue.new(proc{|x,y| x<y})
-      @running         = true
-      @players         = []
-      @basic_timer     = Timer.new
+    @timer_registery = PQueue.new(proc{|x,y| x<y})
+    @running         = true
+    @players         = []
+    @basic_timer     = Timer.new
   end
 
   def time
-      @basic_timer.ms
+    @basic_timer.ms
   end
 
   def setup
-      $log.info("Resetting time to #{@time}")
-      @basic_timer.reset(@time)
-      @timer_registery = PQueue.new(proc{|x,y| x<y})
+    $log.info("Resetting time to #{@time}")
+    @basic_timer.reset(@time)
+    @timer_registery = PQueue.new(proc{|x,y| x<y})
 
-      # clear old data !!
-      @reg.reject!{|act| act.when < @time}
+    @reg.reject!{|act| act.when < @time} # clear old data !!
 
-      @timer_registery.replace_array(@reg) if @reg
-      $command_db   = CommandDatabase.new
-      $logic_db     = LogicDatabase.new
-      $character_db = CharacterDatabase.new
-      $item_db      = ItemDatabase.new
-      $room_db      = RoomDatabase.new
-      $portal_db    = PortalDatabase.new
-      $region_db    = RegionDatabase.new
-      $account_db   = AccountDatabase.new
+    @timer_registery.replace_array(@reg) if @reg
+    $command_db   = CommandDatabase.new
+    $logic_db     = LogicDatabase.new
+    $character_db = CharacterDatabase.new
+    $item_db      = ItemDatabase.new
+    $room_db      = RoomDatabase.new
+    $portal_db    = PortalDatabase.new
+    $region_db    = RegionDatabase.new
+    $account_db   = AccountDatabase.new
   end
 
   def shutdown
-      @players.dup.each do |p|
-          p.do_action(Action.new(:leave,p))
-      end
+    @players.dup.each do |p|
+      p.do_action(Action.new(:leave,p))
+    end
   end
 
   def running?
-      @running
+    @running
   end
-
 
   def execute_loop
       while (not @timer_registery.empty?) and @timer_registery.top.when <= time
@@ -134,7 +126,7 @@ class Game
 
   def to_yaml_properties
     @time = @basic_timer.ms
-    @reg = @timer_registery.to_a
+    @reg  = @timer_registery.to_a
     instance_variables - ['@timer_registery']
   end
 
@@ -146,31 +138,4 @@ class Game
     ta.hook
     ta.when
   end
-
-=begin
-    def do_something(char)
-        can = Action(:can,char,{})
-        char.<observers>.each do |c|
-            return if not c.do_action(can)
-        end
-
-        # do it
-
-        did = Action(:did,char,{})
-        char.changed
-        char.notify_observers(did)
-        # where .update calls do_action(did)
-    end
-    def show_stats
-        puts "Characters:"
-        $character_db.each do |char|
-            puts "#{char.oid} #{char.name} #{char.region.oid} #{char.room.oid} \
-            Items: #{char.items.join(',')}"
-        end
-        puts "Items:"
-        $item_db.each do |char|
-            puts "#{char.oid} #{char.name} Reg:#{char.region.oid if char.region} Room:#{char.room.oid if char.room} Char:#{char.character.oid if char.character}"
-        end
-    end
-=end
 end

@@ -10,8 +10,6 @@
 # See LICENSE file for additional information.
 
 require 'observer'
-require "#{$ROOT_PATH}/network/net_connection"
-
 # An incoming connection from a potential user/player
 class UserConnection < NetworkConnection
     include Observable

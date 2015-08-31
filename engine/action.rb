@@ -12,7 +12,6 @@
 # ------------------------------------------------------------------------------
 # Actions: see TODO
 # ------------------------------------------------------------------------------
-require "#{$ROOT_PATH}/engine/entity_container"
 # Represents an event, query or the initiation of a command in the game.
 class Action
     include HasEntity

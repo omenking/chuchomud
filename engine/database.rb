@@ -8,85 +8,73 @@
 #
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
+class Database
+  include Enumerable
 
-require 'yaml'
+  def initialize(container)
+      @container = container
+  end
 
-require "#{$ROOT_PATH}/engine/character"
-require "#{$ROOT_PATH}/engine/item"
-require "#{$ROOT_PATH}/engine/region"
-require "#{$ROOT_PATH}/engine/room"
-require "#{$ROOT_PATH}/engine/portal"
-require "#{$ROOT_PATH}/engine/account"
-require "#{$ROOT_PATH}/engine/command"
+  def each
+      @container.each do |e|
+          yield e
+      end
+  end
 
-class Database 
-    include Enumerable
+  def find_name(name)
+      find do |v|
+          v.named?(name) if (v and v.respond_to?(:named?))
+      end
+  end
+  def get(id)
+      @container[id]
+  end
+  def size
+      @container.size # ??
+  end
 
-    def initialize(container)
-        @container = container
-    end
-
-    def each
-        @container.each do |e|
-            yield e
-        end
-    end
-
-    def find_name(name)
-        find do |v|
-            v.named?(name) if (v and v.respond_to?(:named?))
-        end
-    end
-    def get(id)
-        @container[id]
-    end
-    def size
-        @container.size # ??
-    end
-    # ===============================
-    # Load/Save to Filesystem
-    # ===============================
-    def load_entity(file)
-        # add(YAML::load(file))
-        entity = YAML::load(file)
-        entity.loaded if entity and entity.respond_to?(:loaded)
-        add(entity)
-    end
-    def load_directory(dir)
-        Dir.glob(dir+File::SEPARATOR+'*.yaml') do |filename|
-            load_file(filename)
-            # or
-            # yield load_file(filename)
-        end
-    end
-    def load_file(filename)
-        begin
-            File.open(filename,'r') do |file|
-                contents = YAML::load(file)
-                if contents.respond_to?(:each) then
-                    contents.each do |entity|
-                        entity.loaded if entity and entity.respond_to?(:loaded)
-                        add(entity)
-                    end
-                else
-                    add(contents)
-                end
-            end
-        rescue => e
-            $log.error("Error opening #{filename}: #{e}")
-        end
-    end
-    def save_file(filename,entity)
-        temp = "#{filename}.tmp"
-        begin
-            File.open(temp,'w') do |file|
-                save_entity(file,entity)
-            end
-            File.rename(temp,filename)
-        rescue => e
-            $log.error("Error saving #{filename}: #{e}; Saved temp file: #{temp}.")
-        end
-    end
+  # Load/Save to Filesystem
+  def load_entity(file)
+      # add(YAML::load(file))
+      entity = YAML::load(file)
+      entity.loaded if entity and entity.respond_to?(:loaded)
+      add(entity)
+  end
+  def load_directory(dir)
+      Dir.glob(dir+File::SEPARATOR+'*.yaml') do |filename|
+          load_file(filename)
+          # or
+          # yield load_file(filename)
+      end
+  end
+  def load_file(filename)
+      begin
+          File.open(filename,'r') do |file|
+              contents = YAML::load(file)
+              if contents.respond_to?(:each) then
+                  contents.each do |entity|
+                      entity.loaded if entity and entity.respond_to?(:loaded)
+                      add(entity)
+                  end
+              else
+                  add(contents)
+              end
+          end
+      rescue => e
+          $log.error("Error opening #{filename}: #{e}")
+      end
+  end
+  def save_file(filename,entity)
+      temp = "#{filename}.tmp"
+      begin
+          File.open(temp,'w') do |file|
+              save_entity(file,entity)
+          end
+          File.rename(temp,filename)
+      rescue => e
+          $log.error("Error saving #{filename}: #{e}; Saved temp file: #{temp}.")
+      end
+  end
 private
     def save_entity(file,entity,remove_nulls=false)
         if entity.respond_to?(:each) and remove_nulls then
@@ -221,60 +209,63 @@ class TemplateInstanceDatabase
 end
 
 class CharacterDatabase < TemplateInstanceDatabase
-    CHAR_DIR = "#{ChuchoMUD::Config.instance.module_directory}/players".gsub!('/',File::SEPARATOR)
-    CHAR_TEMPLATE_DIR = "#{ChuchoMUD::Config.instance.module_directory}/templates/characters".gsub!('/',File::SEPARATOR)
-
     def has_name?
     end
+
     def find_player(name,part=true)
-        find do |e|
-            e.named?(name)
-        end
+      find do |e|
+        e.named?(name)
+      end
     end
+
     def save_player(char)
-        begin
-            $item_db.save_file(CHAR_DIR+File::SEPARATOR+"#{char.name.downcase}.items.yaml",
-                char.items)
-            save_file(
-                 CHAR_DIR+File::SEPARATOR+"#{char.name.downcase}.yaml",char)
-        rescue => e
-            $log.error("Error saving #{char.name.downcase}: #{e}")
-        end
+      begin
+        $item_db.save_file(CHAR_DIR+File::SEPARATOR+"#{char.name.downcase}.items.yaml",
+          char.items)
+        save_file(
+           CHAR_DIR+File::SEPARATOR+"#{char.name.downcase}.yaml",char)
+      rescue => e
+        $log.error("Error saving #{char.name.downcase}: #{e}")
+      end
     end
+
     def save_players
         self.each do |char|
             save_player(char) if char.player?
         end
     end
+
     def load_players
-        re = /\.items\./
-        Dir.glob(CHAR_DIR+File::SEPARATOR+'*.yaml') do |filename|
-            $item_db.load_file(filename) if re.match(filename)
-        end
-        Dir.glob(CHAR_DIR+File::SEPARATOR+'*.yaml') do |filename|
-            @instances.load_file(filename) if not re.match(filename)
-        end
+      re = /\.items\./
+      Dir.glob(CHAR_DIR+File::SEPARATOR+'*.yaml') do |filename|
+        $item_db.load_file(filename) if re.match(filename)
+      end
+      Dir.glob(CHAR_DIR+File::SEPARATOR+'*.yaml') do |filename|
+        @instances.load_file(filename) if not re.match(filename)
+      end
     end
+
     def load_templates
-        @templates.load_directory(CHAR_TEMPLATE_DIR)
+      @templates.load_directory(CHAR_TEMPLATE_DIR)
     end
+
     def load_template(template)
-        @templates.load_file(CHAR_TEMPLATE_DIR+File::SEPARATOR+"#{template}.yaml")
+      @templates.load_file(CHAR_TEMPLATE_DIR+File::SEPARATOR+"#{template}.yaml")
     end
+
     def load_player(player)
-        $item_db.load_file(CHAR_DIR+File::SEPARATOR+"#{player.downcase}.items.yaml")
-        @instances.load_file(CHAR_DIR+File::SEPARATOR+"#{player.downcase}.yaml")
+      $item_db.load_file(CHAR_DIR+File::SEPARATOR+"#{player.downcase}.items.yaml")
+      @instances.load_file(CHAR_DIR+File::SEPARATOR+"#{player.downcase}.yaml")
     end
 
     def create(id)
-        char = Character.new unless char = @instances.get(id)
-        char.oid = id
-        char
+      char = Character.new unless char = @instances.get(id)
+      char.oid = id
+      char
     end
 end
 
 class ItemDatabase < TemplateInstanceDatabase
-    ITEM_TEMPLATE_DIR = "#{ChuchoMUD::Config.instance.module_directory}/templates/items".gsub!('/',File::SEPARATOR)
     def load_templates
         @templates.load_directory(ITEM_TEMPLATE_DIR)
     end
@@ -295,7 +286,6 @@ class PortalDatabase < VectorDatabase
 end
 
 class RegionDatabase < VectorDatabase
-    REGION_DIR = "#{ChuchoMUD::Config.instance.module_directory}/regions".gsub!('/',File::SEPARATOR)
 
     def load_all
         # each region is its own subdir

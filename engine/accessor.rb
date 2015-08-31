@@ -14,14 +14,14 @@
 # or could I put them in the corresponding class?
 # e.g. Character::character("foo")
 module Accessor
-    def character(char)
-        $character_db.find(char)
-    end
-    def item(item)
-        $item_db.find(item)
-    end
-    # room
-    # portal
-    # region
+  def character(char)
+      $character_db.find(char)
+  end
+  def item(item)
+      $item_db.find(item)
+  end
+  # room
+  # portal
+  # region
 end
 

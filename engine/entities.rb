@@ -8,21 +8,20 @@
 #
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
-require "#{$ROOT_PATH}/engine/nameable"
 # -----------------------------------------------------------------------
 # Base Class
 # -----------------------------------------------------------------------
 class Entity
-    include Comparable,Nameable
+  include Comparable, Nameable
 
-    attr_accessor :oid,:description
+  attr_accessor :oid,:description
 
-    def <=>(e)
-        self.oid<=>e.oid
-    end
-    def to_s
-        @name
-    end
+  def <=>(e)
+      self.oid<=>e.oid
+  end
+  def to_s
+      @name
+  end
 end
 # -----------------------------------------------------------------------
 # Utility Functions
@@ -252,4 +251,17 @@ private
             logic.class.to_s.downcase==logicname
         }
     end
+end
+
+class CharacterTemplate < Entity
+  include DataEntity
+  attr_accessor :commands,:logics,:playable
+  def playable?
+    @playable||=false
+  end
+end
+
+class ItemTemplate < Entity
+  include DataEntity
+  attr_accessor :quantity,:logics,:many
 end

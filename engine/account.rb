@@ -9,17 +9,15 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require "#{$ROOT_PATH}/engine/entities"
-
 # Every user has an Account which stores their password, rank, etc. An Account
 # can have one or more Character.
 class Account < Entity
-    include HasCharacters
+  include HasCharacters
 
-    attr_accessor :password,:login_time,:rank,:allowed_accounts,:logged_in
+  attr_accessor :password,:login_time,:rank,:allowed_accounts,:logged_in
 
-    def initialize
-        @allowed_accounts = 3
-        @logged_in = false
-    end
+  def initialize
+    @allowed_accounts = 3
+    @logged_in = false
+  end
 end

@@ -9,9 +9,6 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require "#{$ROOT_PATH}/engine/logic"
-require "#{$ROOT_PATH}/engine/region"
-
 class DayNight < Effect
     frequency_in_sec 5*60
     delayed false

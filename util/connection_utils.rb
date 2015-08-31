@@ -9,16 +9,14 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require "#{$ROOT_PATH}/network/telnet_commands"
-
 module ConnectionUtils
-    def display(str)
-        send_string(str+TelnetCommands::EOL)
-    end
-    def prompt(str)
-        send_string(str)
-    end
-    def clear_screen
-        send_string(TelnetCommands::CLEARSCREEN)
-    end
+  def display(str)
+      send_string(str+TelnetCommands::EOL)
+  end
+  def prompt(str)
+      send_string(str)
+  end
+  def clear_screen
+      send_string(TelnetCommands::CLEARSCREEN)
+  end
 end

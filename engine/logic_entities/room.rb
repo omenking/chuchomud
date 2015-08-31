@@ -8,9 +8,6 @@
 #
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
-
-require "#{$ROOT_PATH}/engine/entities"
-
 class Room < LogicEntity
     include DataEntity,HasRegion,HasCharacters,HasItems,HasPortals
 

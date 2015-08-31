@@ -1,10 +1,12 @@
 module Nameable
-    def name
-        @name
-    end
-    def name=(name)
-        @name = name
-    end
+  def name
+      @name
+  end
+
+  def name=(name)
+      @name = name
+  end
+
 	def named?(name)
         return false unless defined?(@name)
 		myname = @name.downcase

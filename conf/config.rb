@@ -19,7 +19,7 @@ module ChuchoMUD
     attr_accessor :module_name
 
     def module_directory
-      @module_directory ||= Pathname.new(File.join('modules', self.module_name))
+      @module_directory ||= Pathname.new(File.join($ROOT_PATH,'modules', self.module_name))
     end
   end
 end

@@ -10,24 +10,24 @@
 # See LICENSE file for additional information.
 
 class SimpleStack
-    include Enumerable
-    def initialize
-        @stack = []
-    end
-    def top
-        @stack[-1]
-    end
-    def push(v)
-        @stack.push(v)
-    end
-    def pop
-        @stack.pop
-    end
-    def empty?
-        @stack.empty?
-    end
-    def each
-        @stack.each{|e| yield e}
-    end
+  include Enumerable
+  def initialize
+      @stack = []
+  end
+  def top
+      @stack[-1]
+  end
+  def push(v)
+      @stack.push(v)
+  end
+  def pop
+      @stack.pop
+  end
+  def empty?
+      @stack.empty?
+  end
+  def each
+      @stack.each{|e| yield e}
+  end
 end
 

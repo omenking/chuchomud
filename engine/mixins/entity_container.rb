@@ -1,9 +1,3 @@
-require "#{$ROOT_PATH}/engine/character"
-require "#{$ROOT_PATH}/engine/item"
-require "#{$ROOT_PATH}/engine/portal"
-require "#{$ROOT_PATH}/engine/room"
-require "#{$ROOT_PATH}/engine/region"
-
 # Anything that has an entity associated with it. HasEntity
 # generalizes the accessor, so that any type of entity (e.g. Character,
 # Room, Item) can be used.

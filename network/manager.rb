@@ -9,10 +9,6 @@
 # Released under the terms of the GNU General Public License
 # See LICENSE file for additional information.
 
-require "#{$ROOT_PATH}/network/player_connection"
-require "#{$ROOT_PATH}/network/server"
-require "#{$ROOT_PATH}/engine/handler"
-
 class NetManager
     # [+engine+] Engine being managed
     # [+port+] Port on which to listen

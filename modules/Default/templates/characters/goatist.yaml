@@ -1,0 +1,13 @@
+--- !ruby/object:CharacterTemplate 
+description: Relious Animalistic Zealot
+name: Goatist
+description: You draw power from animals, and you worship goats
+playable: true
+oid: 3
+logics:
+ - Tired
+ - Encumbrance
+properties: 
+  :encumbrance: 0
+  :maxencumbrance: 2000
+  :life: 100
