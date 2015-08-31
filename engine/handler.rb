@@ -12,6 +12,7 @@
 class Handler
   def initialize connection
     @conn = connection
+    @conn.extend ConnectionUtils
   end
 
   def enter
@@ -29,5 +30,28 @@ class Handler
     else
       raise "state does not exist for handler #{@state}"
     end
+  end
+
+  def goto state
+    @state = state
+  end
+
+  def clear
+    @conn.clear_screen
+  end
+
+  def prompt input
+    @conn.prompt input
+  end
+
+  def display input
+    input = 
+    case input
+    when :hardbar then "#" * 90
+    when :softbar then "-" * 90
+    else
+      input
+    end
+    @conn.display input
   end
 end
