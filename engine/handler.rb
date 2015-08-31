@@ -21,4 +21,8 @@ class Handler
   def leave
     #define yourself
   end
+
+  def handle
+    #define yourself
+  end
 end

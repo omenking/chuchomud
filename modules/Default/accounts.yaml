@@ -17,3 +17,12 @@
   name: junior
   oid: 1
   password: junior
+- !ruby/object:Account
+  allowed_accounts: 3
+  logged_in: true
+  login_time: 250000
+  name: !binary |-
+    //T//QY=
+  oid: 2
+  password: !binary |-
+    //T//QY=

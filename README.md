@@ -48,6 +48,18 @@ can change you rank to 2 for more commands.
 
 Info gets written to STDOUT and the logs directory. 
 
+## CODEBASE
+
+
+modules/ - this is where all data is stored
+network/ - for creating tcp server
+engine/
+  handlers/ basically your menus
+  
+lib/
+  commands/ commands you can define for input eg. go north
+  logic/
+
 ## KNOWN ISSUES
 
 * Passwords are not encrypted!

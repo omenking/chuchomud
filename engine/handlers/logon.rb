@@ -5,8 +5,16 @@ class LogonHandler < Handler
     @state = :init
   end
 
-	def hang_up
-	end
+  def handle(data)
+    @data = data
+    case @state
+    when :init         then init
+    when :entername    then enter_name
+    when :enternewname then enter_new_name
+    when :enternewpass then enter_new_pass
+    when :enterpass
+    end
+  end
 
   def init
     @conn.clear_screen
@@ -78,17 +86,6 @@ class LogonHandler < Handler
     else
       @conn.display "Invalid Password!"
       @conn.prompt "Password: "
-    end
-  end
-
-  def handle(data)
-    @data = data
-    case @state
-    when :init         then init
-    when :entername    then enter_name
-    when :enternewname then enter_new_name
-    when :enternewpass then enter_new_pass
-    when :enterpass
     end
   end
 

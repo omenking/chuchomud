@@ -33,13 +33,11 @@ class PlayerConnection
     def update(data)
         case data
         when :disconnected
-            close
-        when :initdone
-            @handlers.top.handle('initdone') if not @handlers.empty?
-        when :logged_out
-            @handlers.to.leave unless @handlers.empty?
+          close
+        when :initdone   then @handlers.top.handle('initdone') if not @handlers.empty?
+        when :logged_out then @handlers.to.leave unless @handlers.empty?
         else
-            @handlers.top.handle(data) unless @handlers.empty?
+          @handlers.top.handle(data) unless @handlers.empty?
         end
     end
 
@@ -52,32 +50,35 @@ class PlayerConnection
     # of .extend)?
     # -------------------------------------------------------------------------
     def switch_handler(handler)
-        @handlers.top.leave unless @handlers.empty?
-        @handlers.pop
-        add_handler(handler)
+      @handlers.top.leave unless @handlers.empty?
+      @handlers.pop
+      add_handler(handler)
     end
+
     def add_handler(handler)
-        @handlers.push(handler)
-        @handlers.top.enter
+      @handlers.push handler
+      @handlers.top.enter
     end
+
     def del_handler
-        return if @handlers.empty?
-        @handlers.top.leave
-        @handlers.pop
-        @handlers.top.enter unless @handlers.empty?
+      return if @handlers.empty?
+      @handlers.top.leave
+      @handlers.pop
+      @handlers.top.enter unless @handlers.empty?
     end
+
     # FIXME for backwards compat.
     def remove_handler
       del_handler
     end
+
     def clear_handlers
-        until @handlers.empty?
-            @handlers.pop.leave
-        end
+      @handlers.pop.leave until @handlers.empty?
     end
+
     def close
-        clear_handlers
-        changed
-        notify_observers(:logged_out)
+      clear_handlers
+      changed
+      notify_observers(:logged_out)
     end
 end
