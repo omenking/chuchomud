@@ -14,31 +14,29 @@ class PlayerConnection
     include Observable
 
     def initialize(socket)
-        @handlers = SimpleStack.new
-
-        @socket = socket
-        @socket.add_observer(self)
-        add_observer(@socket)
+      @handlers = SimpleStack.new
+      @socket   = socket
+      @socket.add_observer(self)
+      add_observer(@socket)
     end
 
     # connection => socket
     # Route [+str+] to the attached socket.
     def send_string(str)
-        changed
-        notify_observers(str)
+      changed
+      notify_observers(str)
     end
     # socket => connection
     # Send [+data+] to the top handler to handle.
     # However, there are some Special Cases, handle those first.
     def update(data)
-        case data
-        when :disconnected
-          close
-        when :initdone   then @handlers.top.handle('initdone') if not @handlers.empty?
-        when :logged_out then @handlers.to.leave unless @handlers.empty?
-        else
-          @handlers.top.handle(data) unless @handlers.empty?
-        end
+      case data
+      when :disconnected then close
+      when :initdone     then @handlers.top.handle('initdone') if not @handlers.empty?
+      when :logged_out   then @handlers.to.leave unless @handlers.empty?
+      else
+        @handlers.top.handle(data) unless @handlers.empty?
+      end
     end
 
     # -------------------------------------------------------------------------
@@ -49,13 +47,13 @@ class PlayerConnection
     # leave). The only question: can I go back (i.e. what's the opposite
     # of .extend)?
     # -------------------------------------------------------------------------
-    def switch_handler(handler)
+    def switch_handler handler
       @handlers.top.leave unless @handlers.empty?
       @handlers.pop
       add_handler(handler)
     end
 
-    def add_handler(handler)
+    def add_handler handler
       @handlers.push handler
       @handlers.top.enter
     end

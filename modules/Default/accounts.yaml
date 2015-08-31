@@ -26,3 +26,17 @@
   oid: 2
   password: !binary |-
     //T//QY=
+- !ruby/object:Account
+  allowed_accounts: 3
+  logged_in: true
+  login_time: 261000
+  name: omenking
+  oid: 3
+  password: testing
+- !ruby/object:Account
+  allowed_accounts: 3
+  logged_in: true
+  login_time: 249000
+  name: rockamore
+  oid: 4
+  password: testing

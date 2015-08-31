@@ -22,7 +22,12 @@ class Handler
     #define yourself
   end
 
-  def handle
-    #define yourself
+  def handle data
+    @data = data
+    if self.respond_to? @state
+      self.public_send @state
+    else
+      raise "state does not exist for handler #{@state}"
+    end
   end
 end
